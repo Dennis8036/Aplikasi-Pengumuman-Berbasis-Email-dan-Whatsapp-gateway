@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Acara</title>
+    <link rel="stylesheet" href="path/to/your/styles.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            color: #333;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 50px auto;
+            text-align: center;
+        }
+
+        .countdown-container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 40px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .countdown-container:hover {
+            transform: scale(1.05);
+        }
+
+        .countdown-container::before {
+            content: "";
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 215, 0, 0.4);
+            border-radius: 50%;
+            z-index: -1;
+            animation: bounce 6s infinite;
+        }
+
+        .countdown-container::after {
+            content: "";
+            position: absolute;
+            bottom: -50px;
+            right: -50px;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 105, 180, 0.4);
+            border-radius: 50%;
+            z-index: -1;
+            animation: bounce 8s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(15px);
+            }
+        }
+
+        .event-title {
+            font-size: 2em;
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .countdown {
+            font-size: 2.5em;
+            color: #444;
+            margin-top: 20px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .no-event {
+            font-size: 1.5em;
+            color: #ff4757;
+            margin: 20px 0;
+        }
+
+        .cta-button {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 24px;
+            font-size: 1.2em;
+            color: #fff;
+            background: #007bff;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background: #0056b3;
+            transform: translateY(-5px);
+        }
+
+        .acara-history {
+            background: #f1f3f5;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .acara-history h3 {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .acara-history .event-title {
+            font-size: 1.6em;
+            color: #28a745;
+        }
+
+        .acara-history .no-event {
+            color: #ff4757;
+            font-size: 1.4em;
+        }
+
+        /* Additional Styling for New Features */
+        .welcome-message {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            margin-top: 30px;
+        }
+
+        .info-cards {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .info-card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 48%;
+        }
+
+        .info-card h3 {
+            font-size: 1.5em;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+
+        .quote-box {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 40px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .quote-box p {
+            font-size: 1.3em;
+            color: #555;
+            font-style: italic;
+        }
+
+        /* Weather Section */
+        .weather-widget {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 40px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .weather-widget h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        .weather-widget .temp {
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="welcome-message">
+            Selamat datang, <?= isset($user_name) ? $user_name : 'Pengguna'; ?>!
+        </div>
+
+        <!-- Countdown (Already Exist) -->
+        <div class="countdown-container">
+            <?php if (!empty($acara_terdekat)): ?>
+                <div class="event-title">
+                    Acara Selanjutnya: <?= $acara_terdekat['nama_acara']; ?>
+                </div>
+                <div id="countdown" class="countdown"></div>
+            <?php else: ?>
+                <div class="no-event">Tidak ada acara yang dijadwalkan.</div>
+            <?php endif; ?>
+        </div>
+
+        <!-- Info Cards Section -->
+        <div class="info-cards">
+            <div class="info-card">
+                <h3>Jumlah Acara Terjadwal</h3>
+                <p><?= $jumlah_acara_terjadwal; ?> Acara</p>
+            </div>
+            <div class="info-card">
+                <h3>Jumlah Acara Selesai</h3>
+                <p><?= $jumlah_acara_selesai; ?> Acara</p>
+            </div>
+        </div>
+
+        <!-- Quote of the Day -->
+        <div class="quote-box">
+            <p>"Kesuksesan adalah jumlah dari upaya kecil yang diulang hari demi hari." - Robert Collier</p>
+        </div>
+
+        <!-- Weather Widget -->
+        <div class="weather-widget">
+            <h3>Cuaca Hari Ini</h3>
+            <div class="temp">
+                28°C
+            </div>
+            <p>Cuaca cerah di kota Anda</p>
+        </div>
+
+        <!-- Acara Hari Ini -->
+        <?php if (!empty($acara_history)): ?>
+            <div class="acara-history">
+                <h3>Acara Hari Ini:</h3>
+                <?php foreach ($acara_history as $acara): ?>
+                    <div class="event-title">
+                        <?= $acara['nama_acara']; ?>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php else: ?>
+            <div class="acara-history">
+                <div class="no-event">Tidak ada acara yang terjadi hari ini.</div>
+            </div>
+        <?php endif; ?>
+
+    </div>
+
+    <script>
+        <?php if (!empty($acara_terdekat)): ?>
+            // Mengambil waktu acara yang sudah dikonversi ke WIB (Asia/Jakarta) dari PHP
+            var eventDate = new Date("<?= $acara_terdekat['tanggal_acara']; ?>").getTime();
+            var countdown = document.getElementById("countdown");
+
+            function updateCountdown() {
+                var now = new Date().getTime();
+                var distance = eventDate - now;
+
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                countdown.innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+
+                if (distance < 0) {
+                    clearInterval(x);
+                    countdown.innerHTML = "Acara telah dimulai";
+                }
+            }
+
+            var x = setInterval(updateCountdown, 1000);
+        <?php endif; ?>
+    </script>
+</body>
+</html>

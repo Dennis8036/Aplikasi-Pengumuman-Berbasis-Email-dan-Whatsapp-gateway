@@ -1,0 +1,8 @@
+CRITICAL - 2025-01-08 00:14:05 --> syntax error, unexpected ''update_at'' (T_CONSTANT_ENCAPSED_STRING), expecting ')'
+#0 C:\pengumuman\system\Router\Router.php(169): CodeIgniter\Router\Router->autoRoute('Home/user')
+#1 C:\pengumuman\system\CodeIgniter.php(809): CodeIgniter\Router\Router->handle('Home/user')
+#2 C:\pengumuman\system\CodeIgniter.php(389): CodeIgniter\CodeIgniter->tryToRouteIt(Object(CodeIgniter\Router\RouteCollection))
+#3 C:\pengumuman\system\CodeIgniter.php(336): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\pengumuman\public\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 C:\pengumuman\system\Commands\Server\rewrite.php(45): require_once('C:\\pengumuman\\p...')
+#6 {main}
